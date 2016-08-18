@@ -1,5 +1,5 @@
 import unittest
-from utils import entropy
+from tree_aa import entropy
 
 class EntropyTest(unittest.TestCase):
     def test_for_zero_entropy(self):
