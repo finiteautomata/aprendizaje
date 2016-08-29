@@ -1,7 +1,7 @@
 from tree_aa import *
-import pylab
+import matplotlib.pyplot as plt
 
-# Armamos dataset tennis 
+# Armamos dataset tennis
 X=np.array([["Sol","Calor","Alta","Debil"],
 ["Sol","Calor","Alta","Fuerte"],
 ["Nublado","Calor","Alta","Debil"],
@@ -32,5 +32,18 @@ print 'Predigo',prediccion_ejemplo
 
 # Ploteo el arbol para mirarlo
 fig= dt.plot_graph()
-pylab.show()
+plt.show()
 
+
+# Creo otro DecisionTree pero con np.random
+
+dt = DecisionTree(lambda *args: np.random.uniform(0,1))
+
+dt.fit(X, y, attrs_names)
+
+# Pruebo una prediccion arbitraria
+prediccion_ejemplo= dt.predict(np.array([["Lluvia","Frio","Normal","Fuerte"]]))
+print 'Predigo',prediccion_ejemplo
+# Ploteo el arbol para mirarlo
+fig= dt.plot_graph()
+plt.show()

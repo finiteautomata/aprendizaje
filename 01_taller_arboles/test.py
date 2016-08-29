@@ -1,5 +1,7 @@
+#! coding: utf-8
 import unittest
-from tree_aa import entropy
+import numpy as np
+from tree_aa import entropy, information_gain
 
 class EntropyTest(unittest.TestCase):
     def test_for_zero_entropy(self):
@@ -11,6 +13,18 @@ class EntropyTest(unittest.TestCase):
 
     def test_for_just_one_element(self):
         self.assertAlmostEqual(entropy([1]), 0.0)
+
+class InformationGainTest(unittest.TestCase):
+	def test_for_maximum_gain(self):
+		"""
+		En este caso, los valores de la columna se corresponden exactamente con sí o por no.
+
+		Espero que sea exactamente igual a la entropía (1.0)
+		"""
+		column = np.array(['Rain', 'Rain', 'Sunny', 'Sunny'])
+		y = np.array([False, False, True, True])
+
+		self.assertAlmostEqual(information_gain(column, y), 1.0)
 
 if __name__ == '__main__':
     unittest.main()

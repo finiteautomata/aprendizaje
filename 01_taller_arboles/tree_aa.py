@@ -1,6 +1,7 @@
+#! coding: utf-8
 import numpy as np
 from collections import Counter
-#import pylab
+import matplotlib.pyplot as plt
 
 def log2(v):
     return np.log(v)/np.log(2)
@@ -14,7 +15,21 @@ def entropy(y):
 
 def information_gain(column,y):
     # Completar
-    pass
+    gain = entropy(y)
+
+    counter = Counter(column)
+
+    for value in counter.keys():
+        # Resto la entropía del subconjunto de dicho valor ponderado por su tamaño
+        # En values me quedo con un array de booleanos que me indican donde son iguales a value
+        positions = column == value
+
+        #import ipdb; ipdb.set_trace()
+
+        weight = sum(positions) / len(y)
+
+        gain -= weight * entropy(y[positions])
+    return gain
 
 
 class DecisionTree():
@@ -121,20 +136,20 @@ class DecisionTree():
 
         pos =dict(_tree_layout(0,0,self))
 
-        fig =pylab.figure(figsize=[ 14.7,   6. ])
+        fig = plt.figure(figsize=[ 14.7,   6. ])
         # Plot nodes
         for k,coord in pos.iteritems():
-            pylab.scatter(coord[0],coord[1],s=500,alpha=0.3)
-            pylab.text(coord[0],coord[1],dict_node_id_to_label[k],horizontalalignment='center', verticalalignment='center',fontsize=14)
+            plt.scatter(coord[0],coord[1],s=500,alpha=0.3)
+            plt.text(coord[0],coord[1],dict_node_id_to_label[k],horizontalalignment='center', verticalalignment='center',fontsize=14)
         # Plot edges and labels
         for src,dst,label in edges:
             src_point = pos[src]
             dst_point = pos[dst]
-            pylab.plot([src_point[0],dst_point[0]],[src_point[1],dst_point[1]],c='black',alpha=0.5)
-            pylab.text(src_point[0]+(dst_point[0]-src_point[0])/2.,src_point[1]+(dst_point[1]-src_point[1])/2.,label,
+            plt.plot([src_point[0],dst_point[0]],[src_point[1],dst_point[1]],c='black',alpha=0.5)
+            plt.text(src_point[0]+(dst_point[0]-src_point[0])/2.,src_point[1]+(dst_point[1]-src_point[1])/2.,label,
             horizontalalignment='center', verticalalignment='center',fontsize=12)
-        pylab.xticks([])
-        pylab.yticks([])
+        plt.xticks([])
+        plt.yticks([])
         fig.tight_layout()
         return fig
 
